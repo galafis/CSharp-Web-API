@@ -43,7 +43,7 @@ app.MapControllers();
 // Add custom middleware
 app.Use(async (context, next) =>
 {
-    context.Response.Headers.Add("X-Author", "Gabriel Demetrios Lafis");
+    context.Response.Headers["X-Author"] = "Gabriel Demetrios Lafis";
     await next();
 });
 
