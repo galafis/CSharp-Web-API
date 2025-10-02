@@ -1,7 +1,13 @@
+_Read this in other languages: [English](README.en.md)_ 
+
 # CSharp-Web-API
 
+<p align="center">
+  <img src="hero_image.png" alt="CSharp Web API Hero Image">
+</p>
+
 ## 📋 Descrição
-Professional CSharp-Web-API - Created by Gabriel Demetrios Lafis
+Professional CSharp-Web-API - Criado por Gabriel Demetrios Lafis
 
 ## 🚀 Funcionalidades
 - Funcionalidade principal
@@ -24,7 +30,7 @@ dotnet build
 
 ### Exemplo básico
 ```csharp
-# Adicione aqui um exemplo de uso básico
+// Adicione aqui um exemplo de uso básico
 ```
 
 ### Exemplos avançados
@@ -50,3 +56,4 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 ---
 
 ⭐ Deixe uma estrela se este projeto te ajudou!
+
