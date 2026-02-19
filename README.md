@@ -1,4 +1,4 @@
-_Read this in other languages: [English](README.en.md)_ 
+_Read this in other languages: [English](#-english)_
 
 # CSharp-Web-API
 
@@ -6,54 +6,295 @@ _Read this in other languages: [English](README.en.md)_
   <img src="hero_image.png" alt="CSharp Web API Hero Image">
 </p>
 
-## 📋 Descrição
-Professional CSharp-Web-API - Criado por Gabriel Demetrios Lafis
+[![.NET](https://img.shields.io/badge/.NET-6.0+-purple?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
+[![C#](https://img.shields.io/badge/C%23-Web%20API-blue?style=flat-square&logo=csharp)](https://learn.microsoft.com/en-us/dotnet/csharp/)
+[![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-green?style=flat-square&logo=swagger)](https://swagger.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🚀 Funcionalidades
-- Funcionalidade principal
-- Recursos adicionais  
-- Benefícios do projeto
+---
 
-## 📦 Instalação
+## 🇧🇷 Português
 
-### Pré-requisitos
-- .NET 6.0+
-- Visual Studio ou VS Code
+API RESTful de produtos desenvolvida em **C# com .NET 6**, seguindo o padrão MVC com controllers, suporte a Swagger/OpenAPI e resposta padronizada via `ApiResponse<T>`.
 
-### Passos de instalação
+---
+
+### 🏗️ Arquitetura da API .NET
+
+```mermaid
+graph TD
+    subgraph Client["🖥️ Cliente"]
+        REST["REST Client / Swagger UI\nhttp://localhost:5000/swagger"]
+    end
+
+    subgraph Middleware["⚙️ Pipeline ASP.NET Core"]
+        MW1["HTTPS Redirection"]
+        MW2["Authorization Middleware"]
+        MW3["Custom Header Middleware\n(X-Author)"]
+        MW1 --> MW2 --> MW3
+    end
+
+    subgraph Controller["📦 ProductsController\n(/api/products)"]
+        GET_ALL["GET / → GetProducts()"]
+        GET_ID["GET /{id} → GetProduct(id)"]
+        POST["POST / → CreateProduct(product)"]
+    end
+
+    subgraph Model["📐 Modelos"]
+        PROD["Product\n{ Id, Name, Price, Category }"]
+        RESP["ApiResponse&lt;T&gt;\n{ Success, Message, Data, Author }"]
+        STORE["In-Memory Store\nList&lt;Product&gt;"]
+    end
+
+    REST -->|"HTTP Request"| Middleware
+    Middleware --> Controller
+    GET_ALL --> STORE
+    GET_ID --> STORE
+    POST --> STORE
+    STORE --> PROD
+    Controller -->|"ApiResponse&lt;T&gt;"| REST
+```
+
+---
+
+### 🔄 Fluxo de Requisição e Resposta
+
+```mermaid
+sequenceDiagram
+    participant C as Cliente
+    participant P as Pipeline .NET
+    participant CT as ProductsController
+    participant S as In-Memory Store
+
+    C->>P: GET /api/products
+    P->>CT: GetProducts()
+    CT->>S: Products.ToList()
+    S-->>CT: List<Product>
+    CT-->>C: 200 OK { success: true, data: [...], message: "..." }
+
+    C->>P: GET /api/products/1
+    P->>CT: GetProduct(1)
+    CT->>S: FirstOrDefault(p => p.Id == 1)
+    S-->>CT: Product | null
+    CT-->>C: 200 OK { data: Product } ou 404 Not Found
+
+    C->>P: POST /api/products { name, price, category }
+    P->>CT: CreateProduct(product)
+    CT->>S: Products.Add(newProduct)
+    S-->>CT: Confirmação
+    CT-->>C: 201 Created { data: newProduct }
+```
+
+---
+
+### 📦 Endpoints da API
+
+| Método | Rota                  | Descrição                       | Status de Sucesso |
+|--------|-----------------------|---------------------------------|-------------------|
+| GET    | `/api/products`       | Lista todos os produtos         | 200 OK            |
+| GET    | `/api/products/{id}`  | Busca produto por ID            | 200 OK / 404      |
+| POST   | `/api/products`       | Cria novo produto               | 201 Created       |
+
+### Exemplo de Payload (POST)
+
+```json
+{
+  "name": "Headset",
+  "price": 149.99,
+  "category": "Electronics"
+}
+```
+
+### Exemplo de Resposta Padrão
+
+```json
+{
+  "success": true,
+  "message": "Product retrieved successfully",
+  "data": {
+    "id": 1,
+    "name": "Laptop",
+    "price": 999.99,
+    "category": "Electronics"
+  },
+  "author": "Gabriel Demetrios Lafis"
+}
+```
+
+---
+
+### 🛠️ Tecnologias
+
+| Tecnologia          | Versão  | Função                              |
+|---------------------|---------|-------------------------------------|
+| .NET                | 6.0+    | Runtime e framework web             |
+| ASP.NET Core        | 6.0     | Framework para Web APIs             |
+| C#                  | 10+     | Linguagem principal                 |
+| Swagger / OpenAPI   | 3.x     | Documentação e teste interativo     |
+
+---
+
+### 🚀 Como Rodar
+
+#### Pré-requisitos
+
+- .NET 6.0 SDK ou superior
+- Visual Studio 2022 / VS Code / Rider
+
+#### Execução
+
 ```bash
+# Restaurar dependências
 dotnet restore
+
+# Compilar
 dotnet build
+
+# Executar
+dotnet run
 ```
 
-## 💻 Uso
+A API estará disponível em:
+- **HTTP:** `http://localhost:5000`
+- **Swagger UI:** `http://localhost:5000/swagger`
 
-### Exemplo básico
-```csharp
-// Adicione aqui um exemplo de uso básico
+---
+
+### 📂 Estrutura do Projeto
+
+```
+CSharp-Web-API/
+├── Controllers/
+│   └── ProductsController.cs   # Controller com endpoints GET e POST
+├── Program.cs                   # Configuração do pipeline e Swagger
+├── CSharp-Web-API.csproj        # Definição do projeto .NET
+├── LICENSE
+└── README.md
 ```
 
-### Exemplos avançados
-Descreva casos de uso mais complexos e exemplos práticos.
+---
 
-## 🤝 Contribuindo
+### ✨ Melhorias Futuras
 
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+- Adicionar banco de dados com Entity Framework Core (SQL Server / PostgreSQL).
+- Implementar autenticação JWT.
+- Adicionar endpoint PUT e DELETE.
+- Adicionar validações com FluentValidation.
+- Implementar camada de serviço e repositório separados.
 
-## 📄 Licença
+---
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+### 📄 Licença
 
-## 👨‍💻 Autor
+Este projeto está licenciado sob a Licença MIT — veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+### 👨‍💻 Autor
 
 **Gabriel Demetrios Lafis**
 - GitHub: [@galafis](https://github.com/galafis)
 
 ---
 
-⭐ Deixe uma estrela se este projeto te ajudou!
+---
 
+## 🇬🇧 English
+
+RESTful Products API built with **C# and .NET 6**, following the MVC pattern with controllers, Swagger/OpenAPI support, and standardized responses via `ApiResponse<T>`.
+
+---
+
+### 🏗️ .NET API Architecture
+
+```mermaid
+graph LR
+    subgraph Client["🖥️ Client"]
+        REST["REST Client / Swagger UI"]
+    end
+
+    subgraph Pipeline["⚙️ ASP.NET Core Pipeline"]
+        HTTPS["HTTPS Redirection"]
+        AUTH["Authorization"]
+        MW["Custom Middleware\n(X-Author header)"]
+    end
+
+    subgraph API["📦 ProductsController /api/products"]
+        GA["GET /"]
+        GI["GET /{id}"]
+        PO["POST /"]
+    end
+
+    subgraph Data["📐 Data Layer"]
+        STORE["In-Memory\nList<Product>"]
+    end
+
+    REST -->|HTTP| Pipeline
+    Pipeline --> API
+    API <--> STORE
+    API -->|"ApiResponse<T> JSON"| REST
+```
+
+---
+
+### 📦 API Endpoints
+
+| Method | Route                 | Description             | Success Status |
+|--------|-----------------------|-------------------------|----------------|
+| GET    | `/api/products`       | List all products        | 200 OK         |
+| GET    | `/api/products/{id}`  | Get product by ID        | 200 OK / 404   |
+| POST   | `/api/products`       | Create a new product     | 201 Created    |
+
+### Payload Example (POST)
+
+```json
+{
+  "name": "Headset",
+  "price": 149.99,
+  "category": "Electronics"
+}
+```
+
+### Standard Response Format
+
+```json
+{
+  "success": true,
+  "message": "Product retrieved successfully",
+  "data": { "id": 1, "name": "Laptop", "price": 999.99, "category": "Electronics" },
+  "author": "Gabriel Demetrios Lafis"
+}
+```
+
+---
+
+### 🚀 Getting Started
+
+```bash
+dotnet restore
+dotnet build
+dotnet run
+```
+
+- **API:** `http://localhost:5000`
+- **Swagger UI:** `http://localhost:5000/swagger`
+
+---
+
+### 🛠️ Tech Stack
+
+| Technology       | Role                         |
+|------------------|------------------------------|
+| .NET 6           | Runtime and web framework    |
+| ASP.NET Core     | Web API framework            |
+| C# 10            | Main language                |
+| Swagger/OpenAPI  | Interactive documentation    |
+
+---
+
+### 📄 License
+
+MIT License — see [LICENSE](LICENSE) for details.
+
+### 👨‍💻 Author
+
+**Gabriel Demetrios Lafis**
+- GitHub: [@galafis](https://github.com/galafis)
