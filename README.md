@@ -6,11 +6,10 @@ _Read this in other languages: [English](#-english)_
   <img src="hero_image.png" alt="CSharp Web API Hero Image">
 </p>
 
-[![.NET](https://img.shields.io/badge/.NET-6.0+-purple?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
-[![C#](https://img.shields.io/badge/C%23-Web%20API-blue?style=flat-square&logo=csharp)](https://learn.microsoft.com/en-us/dotnet/csharp/)
-[![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-green?style=flat-square&logo=swagger)](https://swagger.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker)](Dockerfile)
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![License-MIT](https://img.shields.io/badge/License--MIT-yellow?style=for-the-badge)
+
 
 ---
 
